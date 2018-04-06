@@ -10,8 +10,7 @@ lazy val isRelease = false
 lazy val travisCommit = Option(System.getenv().get("TRAVIS_COMMIT"))
 
 lazy val scalaVersionSettings = Seq(
-  scalaVersion := "2.12.3",
-  crossScalaVersions := Seq("2.10.6", "2.11.11", "2.13.0-M3", scalaVersion.value)
+  scalaVersion := "2.13.0-M4-pre-20d3c21"
 )
 
 lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
@@ -116,27 +115,8 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
   }
 )
 
-lazy val js = project.in(file("js"))
-  .settings(sharedSettings: _*)
-  .settings(
-    scalaJSStage in Global := FastOptStage,
-    libraryDependencies += "org.scala-js" %% "scalajs-test-interface" % scalaJSVersion
-  )
-  .enablePlugins(ScalaJSPlugin)
-
 lazy val jvm = project.in(file("jvm"))
   .settings(sharedSettings: _*)
   .settings(
     libraryDependencies += "org.scala-sbt" %  "test-interface" % "1.0"
   )
-
-lazy val native = project.in(file("native"))
-  .settings(sharedSettings: _*)
-  .settings(
-    doc in Compile := (doc in Compile in jvm).value,
-    scalaVersion := "2.11.11",
-    libraryDependencies ++= Seq(
-      "org.scala-native" %% "test-interface_native0.3" % nativeVersion
-    )
-  )
-  .enablePlugins(ScalaNativePlugin)
