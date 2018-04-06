@@ -5,7 +5,7 @@ scalaVersionSettings
 // When bumping to 1.14.1, remember to set mimaPreviousArtifacts to 1.14.0
 lazy val versionNumber = "1.14.0"
 
-lazy val isRelease = false
+lazy val isRelease = true
 
 lazy val travisCommit = Option(System.getenv().get("TRAVIS_COMMIT"))
 
@@ -18,15 +18,13 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
   name := "scalacheck",
 
   version := {
-    val suffix =
-      if (isRelease) ""
-      else travisCommit.map("-" + _.take(7)).getOrElse("") + "-SNAPSHOT"
+    val suffix = "-newCollections"
     versionNumber + suffix
   },
 
   isSnapshot := !isRelease,
 
-  organization := "org.scalacheck",
+  organization := "org.scala-lang.modules",
 
   licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php")),
 
@@ -54,7 +52,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
     "-encoding", "UTF-8",
     "-feature",
     "-unchecked",
-    "-Xfatal-warnings",
+//    "-Xfatal-warnings",
     "-Xfuture",
     "-Yno-adapted-args",
     "-Ywarn-dead-code",
@@ -65,7 +63,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
     scalaBinaryVersion.value match {
       case "2.10" => Seq("-Xlint")
       case "2.11" => Seq("-Xlint", "-Ywarn-infer-any", "-Ywarn-unused-import")
-      case _      => Seq("-Xlint:-unused", "-Ywarn-infer-any", "-Ywarn-unused:imports,-patvars,-implicits,-locals,-privates,-params")
+      case _      => Seq("-Xlint:-unused", "-Ywarn-infer-any", "-Ywarn-unused:imports,-patvars,-implicits,-locals,-privates")
     }
   },
 
