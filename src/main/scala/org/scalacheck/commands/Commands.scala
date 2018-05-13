@@ -271,7 +271,7 @@ trait Commands {
 
   private implicit val shrinkActions = Shrink[Actions] { as =>
     val shrinkedCmds: Stream[Actions] =
-      Shrink.shrink(as.seqCmds).map(cs => as.copy(seqCmds = cs)) lazyAppendAll
+      Shrink.shrink(as.seqCmds).map(cs => as.copy(seqCmds = cs)) lazyAppendedAll
       Shrink.shrink(as.parCmds).map(cs => as.copy(parCmds = cs))
 
     Shrink.shrinkWithOrig[State](as.s)(shrinkState) flatMap { state =>

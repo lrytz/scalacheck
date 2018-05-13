@@ -19,7 +19,7 @@ object ShrinkSpecification extends Properties("Shrink") {
   def shrinkClosure[T : Shrink](x: T): Stream[T] = {
     val xs = shrink[T](x)
     if(xs.isEmpty) xs
-    else xs.lazyAppendAll(xs.take(1).map(shrinkClosure[T]).flatten)
+    else xs.lazyAppendedAll(xs.take(1).map(shrinkClosure[T]).flatten)
   }
 
   property("byte") = forAll { n: Byte =>
